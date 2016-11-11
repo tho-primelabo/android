@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+
+     <LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="50dp"
+		android:background="#4aae19"
+		android:gravity="center"
+		android:orientation="horizontal">
+		
+	    <TextView
+	       android:gravity="center"
+            android:layout_weight="4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Person"
+            android:textSize="35sp" 
+	         />
+	    <ImageView
+	    	 android:id="@+id/imgAddPerson"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/abc_ic_go" />
+   	</LinearLayout>
+    <ListView 
+        android:id="@+id/lvDemo"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="#ffe8e8e8"
+        android:divider="#ffe8e8e8"
+        android:dividerHeight="0dp" />
+
+</LinearLayout>
