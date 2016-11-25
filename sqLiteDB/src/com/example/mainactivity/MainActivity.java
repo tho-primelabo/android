@@ -196,8 +196,8 @@ public class MainActivity extends Activity {
 				cursor.moveToFirst();
 				String picturePath = cursor.getString(column_index_data);
 				MyImage image = new MyImage();
-				image.setTitle("Title:");
-				image.setDescription("Take a photo and add it to list view");
+				//image.setTitle("Title:");
+				image.setDescription("Take a photo");
 				image.setDatetime(System.currentTimeMillis());
 				image.setPath(picturePath);
 				images.add(image);
