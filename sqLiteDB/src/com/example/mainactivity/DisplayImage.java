@@ -19,8 +19,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class DisplayImage extends Activity{
@@ -29,21 +27,22 @@ public class DisplayImage extends Activity{
     private TextView description, txtTitle;
     private EditText editDesc, editTitle;
     private String jstring;
-    private Button btnSave, btnDelete;
+    private Button btnDelete;
     //private RelativeLayout ll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.display_image_view);
-        //ll = (RelativeLayout) findViewById(R.id.linearLayout1);
-        
+               
         imageView = (ImageView) findViewById(R.id.display_image_view);
-        editDesc = (EditText) findViewById(R.id.edit_view_description);
         editTitle = (EditText) findViewById(R.id.edit_view_title);
-        btnSave = (Button) findViewById(R.id.btnSave);
+        editDesc = (EditText) findViewById(R.id.edit_view_description);
+      
         description = (TextView) findViewById(R.id.text_view_description);
         txtTitle = (TextView) findViewById(R.id.text_view_title);
+        txtTitle.setHintTextColor(getResources().getColor(R.color.white));
+        description.setHintTextColor(getResources().getColor(R.color.white));
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
@@ -102,25 +101,25 @@ public class DisplayImage extends Activity{
      */
     public void btnEditOnClick(View v) {
     	description.setVisibility(View.INVISIBLE);
-    	editDesc.setVisibility(View.VISIBLE);
+    	
     	txtTitle.setVisibility(View.INVISIBLE);
     	editTitle.setVisibility(View.VISIBLE);
+    	editDesc.setVisibility(View.VISIBLE);
     	btnDelete = (Button) findViewById(R.id.btnDelete);
-    	btnDelete.setVisibility(View.INVISIBLE);
-    	//btnSave = new Button(this);
-    	//btnSave.setText("Save");
-    	btnSave.setVisibility(View.VISIBLE);
-    	//Getcontainer
-    	//ll.addView(btnSave);
+    	btnDelete.setText("Update");
+    	
     	editDesc.setText(description.getText());
     	editTitle.setText(txtTitle.getText());
-    	
+    	//editTitle.setHintTextColor(getResources().getColor(R.color.white));
+    	//editDesc.setHintTextColor(getResources().getColor(R.color.white));    	
     	
     }
     
     public void btnSaveOnClick(View v) {
-    	image.setDescription(editDesc.getText().toString());
-    	Log.i("edit desc ---------", editDesc.getText().toString());
+    	image.setDescription(editDesc.getText().toString().trim());
+    	image.setTitle(editTitle.getText().toString().trim());
+    	//Log.i("btnSaveOnClick desc ---------", editDesc.getText().toString().trim());
+    	//Log.i("btnSaveOnClick title ---------", editTitle.getText().toString().trim());
     	DAOdb db = new DAOdb(DisplayImage.this);
     	db.updateImage(image);
     	startActivity(new Intent(this, MainActivity.class));
@@ -132,32 +131,46 @@ public class DisplayImage extends Activity{
      * @param v
      */
     public void btnDeleteOnClick(View v) {
-    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayImage.this);
-    	// android.R.style.Theme_DeviceDefault_Dialog_MinWidth);
     	
-    	alertDialogBuilder.setMessage("Are you sour !");
-    	alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-            	DAOdb db = new DAOdb(DisplayImage.this);
-                db.deleteImage(image);
-                db.close();
-                startActivity(new Intent(DisplayImage.this, MainActivity.class));
-                finish();
-               
-            }
-        });
-    	alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-               
-            }
-        });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        // create dialog
-        alertDialog.show();
+    	Button btn = (Button)v;
+    	if (btn.getText().equals("Delete")) {
+	    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayImage.this);
+	    	// android.R.style.Theme_DeviceDefault_Dialog_MinWidth);
+	    	
+	    	alertDialogBuilder.setMessage("Are you sour !");
+	    	alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+	            @Override
+	            public void onClick(DialogInterface arg0, int arg1) {
+	            	DAOdb db = new DAOdb(DisplayImage.this);
+	                db.deleteImage(image);
+	                db.close();
+	                startActivity(new Intent(DisplayImage.this, MainActivity.class));
+	                finish();
+	               
+	            }
+	        });
+	    	alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+	            @Override
+	            public void onClick(DialogInterface dialog, int which) {
+	                dialog.dismiss();
+	               
+	            }
+	        });
+	
+	        AlertDialog alertDialog = alertDialogBuilder.create();
+	        // create dialog
+	        alertDialog.show();
+    	}
+    	else if (btn.getText().equals("Update")) {
+    		image.setDescription(editDesc.getText().toString());
+    		image.setTitle(editTitle.getText().toString());
+        	Log.i("edit desc ---------", editDesc.getText().toString() + ":" + editTitle.getText().toString());
+        	DAOdb db = new DAOdb(DisplayImage.this);
+        	db.updateImage(image);
+        	db.close();
+        	startActivity(new Intent(this, MainActivity.class));
+        	finish();
+    	}
     }
 
     @Override protected void onSaveInstanceState(Bundle outState) {

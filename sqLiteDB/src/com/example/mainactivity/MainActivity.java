@@ -67,6 +67,7 @@ public class MainActivity extends Activity {
 		// add images from database to images ArrayList
 		for (MyImage mi : daOdb.getImages()) {
 			// images.add(mi);
+			Log.d("init debug ---------", mi.getTitle() + ":" + mi.getDescription());
 			imageAdapter.add(mi);
 			imageAdapter.notifyDataSetChanged();
 		}
@@ -142,8 +143,8 @@ public class MainActivity extends Activity {
 					String picturePath = cursor.getString(columnIndex);
 					cursor.close();
 					MyImage image = new MyImage();
-					image.setTitle("Title");
-					image.setDescription("");
+					//image.setTitle("Title:");
+					//image.setDescription("Desciption:");
 					image.setDatetime(System.currentTimeMillis());
 					image.setPath(picturePath);
 					images.add(image);
@@ -165,8 +166,12 @@ public class MainActivity extends Activity {
 							int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 							String picturePath = cursor.getString(columnIndex);
 							MyImage image = new MyImage();
-							image.setTitle("Title");
-							image.setDescription("");
+							if(image.getTitle() == null ) {
+								image.setTitle("");
+							}
+							if (image.getDescription() == null) {
+								image.setDescription("");
+							}
 							image.setDatetime(System.currentTimeMillis());
 							image.setPath(picturePath);
 							images.add(image);
@@ -191,8 +196,8 @@ public class MainActivity extends Activity {
 				cursor.moveToFirst();
 				String picturePath = cursor.getString(column_index_data);
 				MyImage image = new MyImage();
-				image.setTitle("Test");
-				image.setDescription("test take a photo and add it to list view");
+				image.setTitle("Title:");
+				image.setDescription("Take a photo and add it to list view");
 				image.setDatetime(System.currentTimeMillis());
 				image.setPath(picturePath);
 				images.add(image);
@@ -214,7 +219,7 @@ public class MainActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 				MyImage image = (MyImage) listView.getItemAtPosition(position);
-				Log.i("listView ---------", image.getPath());
+				Log.i("listView click ---------", image.getPath());
 				Intent intent = new Intent(MainActivity.this, DisplayImage.class);
 				intent.putExtra("IMAGE", (new Gson()).toJson(image));
 				startActivity(intent);

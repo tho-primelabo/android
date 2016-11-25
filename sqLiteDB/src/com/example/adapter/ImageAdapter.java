@@ -8,6 +8,7 @@ import com.example.mainactivity.R;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ImageAdapter  extends ArrayAdapter<MyImage> {
-	private final int THUMBSIZE = 96;
+	private final int THUMBSIZE = 150;
 
-    /**
+	/**
      * applying ViewHolder pattern to speed up ListView, smoother and faster
      * item loading by caching view in A ViewHolder object
      */

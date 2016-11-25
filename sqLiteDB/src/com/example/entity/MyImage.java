@@ -118,6 +118,7 @@ public class MyImage {
 
 	@Override
 	public String toString() {
-		return "Title:" + title + "   " + df.format(getDatetime().getTime()) + "\nDescription:" + description;
+		return "Title:" + title + "\nDescription:" + description + "\nDate:" + df.format(getDatetime().getTime()) ;
+		//return "Title:" + title ;
 	}
 }

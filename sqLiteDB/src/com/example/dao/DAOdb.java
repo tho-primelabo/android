@@ -63,12 +63,13 @@ public class DAOdb {
 	     */
 	    public void updateImage(MyImage image) {
 	        String whereClause =
-	                DBhelper.COLUMN_TITLE + "=? AND " + DBhelper.COLUMN_DATETIME +
+	        		DBhelper.COLUMN_DATETIME +
 	                        "=?";
-	        String[] whereArgs = new String[]{image.getTitle(),
-	                String.valueOf(image.getDatetimeLong())};
+	        String[] whereArgs = new String[]{String.valueOf(image.getDatetimeLong())};
 	        ContentValues values = new ContentValues();
-	        values.put(DBhelper.COLUMN_DESCRIPTION, image.getDescription());
+	        Log.i("updateImage ------:", image.getDescription().toString() + ":" + image.getTitle().trim());
+	        values.put(DBhelper.COLUMN_DESCRIPTION, image.getDescription().trim());
+	        values.put(DBhelper.COLUMN_TITLE, image.getTitle().trim());
 	        database.update(DBhelper.TABLE_NAME, values, whereClause, whereArgs);
 	    }
 

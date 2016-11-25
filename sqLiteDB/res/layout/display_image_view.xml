@@ -16,45 +16,65 @@
 	<LinearLayout
 	   android:layout_width="fill_parent"
 	   android:layout_height="wrap_content"
-	   android:orientation="vertical" >
-	    
-	    <TextView
-	        android:id="@+id/text_view_description"
-	        android:layout_width="fill_parent"
+	   android:orientation="vertical"
+	   android:padding="10dp" >
+	  <LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:orientation="vertical" >
+		    <TextView
+		        android:id="@+id/text_view_title"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:background="#809575CD"
+	            android:focusable="true"
+	            android:hint="@string/image_title"
+	            android:gravity="center"
+	            android:textColor="@color/white" />
+    	</LinearLayout>
+	     <LinearLayout
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_gravity="top"
-	        android:gravity="center"
-	        android:textColor="@color/white"
-	        android:background="#809575CD"/>
-	    
-	     <TextView
-	        android:id="@+id/text_view_title"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="top"
-	        android:gravity="center"
-	        android:textColor="@color/white"
-	        android:background="#809575CD"/>
-	    
+	        android:layout_weight="1"
+	        android:paddingTop="10dp" >
+
+	        <TextView
+	            android:id="@+id/text_view_description"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="top"
+		        android:hint="@string/image_description"
+		        android:gravity="center"
+		        android:textColor="@color/white"
+		        android:background="#809575CD"/>
+	            
+	    </LinearLayout>
 	    <EditText
 	        android:id="@+id/edit_view_title"
-	        android:layout_width="fill_parent"
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_gravity="top"
+	        android:hint="@string/image_title"
 	        android:gravity="center"
 	        android:textColor="@color/white"
 	        android:visibility="invisible"
 	        android:background="#809575CD"/>
-	    
-	     <EditText
-	        android:id="@+id/edit_view_description"
-	        android:layout_width="fill_parent"
+	    <LinearLayout
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_gravity="top"
-	        android:gravity="center"
-	        android:textColor="@color/white"
-	        android:visibility="invisible"
-	        android:background="#809575CD"/>
+	        android:layout_weight="1"
+	        android:paddingTop="10dp" >
+		     <EditText
+		        android:id="@+id/edit_view_description"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:hint="@string/image_description"
+		        android:gravity="center"
+		        android:textColor="@color/white"
+		        android:visibility="invisible"
+		        android:background="#809575CD"/>
+	     </LinearLayout>
 	</LinearLayout>
     <TableRow
         android:id="@+id/table_row"
@@ -72,7 +92,7 @@
             android:layout_marginRight="1dp"
             android:id="@+id/btnDelete"
             android:text="Delete"/>
-         <Button
+         <!-- <Button
             android:onClick="btnSaveOnClick"
             android:visibility="invisible"
             android:layout_weight="1"
@@ -81,7 +101,7 @@
             android:textColor="@color/white"
             android:layout_marginRight="1dp"
             android:id="@+id/btnSave"
-            android:text="Save"/>
+            android:text="Save"/> -->
 
         <Button
             android:onClick="btnBackOnClick"
