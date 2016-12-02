@@ -7,6 +7,7 @@ import com.example.dao.DAOdb;
 import com.example.entity.MyImage;
 import com.google.gson.Gson;
 
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ClipData;
@@ -16,17 +17,23 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements SearchView.OnQueryTextListener {
 
 	private ArrayList<MyImage> images;
 	private ImageAdapter imageAdapter;
+	private SearchView searchView;
 	private ListView listView;
 	private Uri mCapturedImageURI;
 	private static final int RESULT_LOAD_IMAGE = 1;
@@ -40,15 +47,28 @@ public class MainActivity extends Activity {
 
 		// Construct the data source
 		images = new ArrayList<MyImage>();
+		initDB();
 		// Create the adapter to convert the array to views
-		imageAdapter = new ImageAdapter(this, images);
+		imageAdapter = new ImageAdapter(this, R.layout.item_image, images);
 		// Attach the adapter to a ListView
 		listView = (ListView) findViewById(R.id.main_list_view);
 		imageAdapter.notifyDataSetChanged();
 		listView.setAdapter(imageAdapter);
 		addItemClickListener(listView);
-		initDB();
+		
 	}
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        // 
+        getMenuInflater().inflate(R.menu.search_view, menu);
+        MenuItem itemSearch = menu.findItem(R.id.search_view);
+        searchView = (SearchView) itemSearch.getActionView();
+        //set OnQueryTextListener for search view
+        searchView.setOnQueryTextListener(this);
+        return true;
+    }
 
 	@Override
 	protected void onResume() {
@@ -68,13 +88,13 @@ public class MainActivity extends Activity {
 		for (MyImage mi : daOdb.getImages()) {
 			// images.add(mi);
 			Log.d("init debug ---------", mi.getTitle() + ":" + mi.getDescription());
-			imageAdapter.add(mi);
-			imageAdapter.notifyDataSetChanged();
+			images.add(mi);
+			
 		}
 	}
 
 	public void btnAddOnClick(View view) {
-		Log.i("init dialog ---------", "init dialog");
+		//Log.i("init dialog ---------", "init dialog");
 		final Dialog dialog = new Dialog(this);
 		dialog.setContentView(R.layout.custom_dialog_box);
 		dialog.setTitle("Alert Dialog View");
@@ -246,5 +266,28 @@ public class MainActivity extends Activity {
 		if (savedInstanceState.containsKey("mCapturedImageURI")) {
 			mCapturedImageURI = Uri.parse(savedInstanceState.getString("mCapturedImageURI"));
 		}
+	}
+
+	@Override
+	public boolean onQueryTextChange(String newText) {
+		if (TextUtils.isEmpty(newText)){
+			imageAdapter.fillter("");
+			Log.i("searching...", newText);
+			listView.clearTextFilter();
+        }else {
+        	Log.i("searching...", newText);
+        	//imageAdapter.getFilter().filter(newText.toString());
+        	imageAdapter.fillter(newText);
+        }
+		Log.i("imageAdapter...", ""+imageAdapter.getCount());
+		imageAdapter.notifyDataSetChanged();
+		listView.setAdapter(imageAdapter);
+		 return true;
+	}
+
+	@Override
+	public boolean onQueryTextSubmit(String newText) {
+		
+        return onQueryTextChange(newText);
 	}
 }

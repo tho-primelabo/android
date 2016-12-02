@@ -1,6 +1,8 @@
 package com.example.adapter;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import com.example.entity.MyImage;
 import com.example.mainactivity.R;
@@ -18,6 +20,9 @@ import android.widget.TextView;
 
 public class ImageAdapter  extends ArrayAdapter<MyImage> {
 	private final int THUMBSIZE = 150;
+	private List<MyImage> searchList;
+	private List<MyImage> imgList;
+	
 
 	/**
      * applying ViewHolder pattern to speed up ListView, smoother and faster
@@ -28,8 +33,17 @@ public class ImageAdapter  extends ArrayAdapter<MyImage> {
         TextView description;
     }
 
-    public ImageAdapter(Context context, ArrayList<MyImage> images) {
-        super(context, 0, images);
+    /*public ImageAdapter() {
+    	super(null, 0);
+    	this.searchList = new ArrayList<>();
+    }*/
+    public ImageAdapter(Context context, int resource, ArrayList<MyImage> images) {
+        super(context, resource, images);
+        //Log.d("XXXXX", "Images size: " +images.size());
+        this.searchList = new ArrayList<MyImage>();
+        this.imgList = images;
+        this.searchList.addAll(images);
+        //Log.d("XXXXX", "Search List size: " +searchList.size());
     }
 
     @Override public View getView(int position, View convertView,
@@ -61,5 +75,27 @@ public class ImageAdapter  extends ArrayAdapter<MyImage> {
 
         // Return the completed view to render on screen
         return convertView;
+    }
+    // Filter method
+    public void fillter(String filterText) {
+    	//Log.d("XXXXX", "searchList start----------: "+ searchList.size());
+    	filterText = filterText.toLowerCase(Locale.getDefault());
+    	imgList.clear();
+    	if(filterText.length() == 0) {
+    		imgList.addAll(searchList);
+    	}
+    	else {
+    		
+    		//Log.d("XXXXX", "imgList---------- "+ imgList.size());
+    		//Log.d("XXXXX", "searchList----------"+ searchList.size());
+    		for (MyImage s: searchList) {
+    			if (s.getTitle().toLowerCase(Locale.getDefault()).contains(filterText) || 
+					s.getDescription().toLowerCase(Locale.getDefault()).contains(filterText)	) {
+    				imgList.add(s);
+    			}
+    		}
+    	}
+    	notifyDataSetChanged();
+    	//Log.d("XXXXX", "Filter---- " + imgList.size());
     }
 }
